@@ -162,6 +162,8 @@
       gap: 5px;
       cursor: pointer;
       padding: 4px;
+      background: none;
+      border: none;
     }
 
     .nav-hamburger span {
@@ -352,10 +354,17 @@
       align-items: center;
       justify-content: center;
       opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
       transition: opacity var(--transition);
     }
 
-    .product-card:hover .product-overlay { opacity: 1; }
+    .product-card:hover .product-overlay,
+    .product-card:focus-within .product-overlay {
+      opacity: 1;
+      pointer-events: auto;
+      visibility: visible;
+    }
 
     .add-cart-btn {
       padding: 0.7rem 1.8rem;
@@ -835,20 +844,20 @@
 
   <!-- ════════════ NAVBAR ════════════ -->
   <nav id="navbar">
-    <div class="nav-logo" onclick="goToSection('hero')" style="cursor:pointer;">
+    <a class="nav-logo" href="#hero">
       Fiorelle <em>d'Aura</em>
-    </div>
+    </a>
     <ul class="nav-links" id="navLinks">
-      <li><a onclick="goToSection('catalogo')">Coleção</a></li>
-      <li><a onclick="goToSection('sobre')">Sobre</a></li>
-      <li><a onclick="goToSection('garantia')">Garantia</a></li>
-      <li><a onclick="goToSection('contato')">Contato</a></li>
+      <li><a href="#catalogo">Coleção</a></li>
+      <li><a href="#sobre">Sobre</a></li>
+      <li><a href="#garantia">Garantia</a></li>
+      <li><a href="#contato">Contato</a></li>
     </ul>
-    <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
+    <button type="button" class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu" aria-controls="navLinks" aria-expanded="false">
       <span></span>
       <span></span>
       <span></span>
-    </div>
+    </button>
   </nav>
 
   <!-- ════════════ HERO ════════════ -->
@@ -1147,19 +1156,19 @@
       <div>
         <p class="footer-col-title">Navegação</p>
         <ul class="footer-links">
-          <li><a onclick="goToSection('hero')">Início</a></li>
-          <li><a onclick="goToSection('catalogo')">Coleção</a></li>
-          <li><a onclick="goToSection('sobre')">Sobre</a></li>
-          <li><a onclick="goToSection('contato')">Contato</a></li>
+          <li><a href="#hero">Início</a></li>
+          <li><a href="#catalogo">Coleção</a></li>
+          <li><a href="#sobre">Sobre</a></li>
+          <li><a href="#contato">Contato</a></li>
         </ul>
       </div>
       <div>
         <p class="footer-col-title">Políticas</p>
         <ul class="footer-links">
-          <li><a onclick="goToSection('garantia')">Garantia</a></li>
-          <li><a onclick="goToSection('garantia')">Política de Trocas</a></li>
-          <li><a onclick="goToSection('garantia')">Reembolso</a></li>
-          <li><a onclick="goToSection('garantia')">Certificado</a></li>
+          <li><a href="#garantia">Garantia</a></li>
+          <li><a href="#garantia">Política de Trocas</a></li>
+          <li><a href="#garantia">Reembolso</a></li>
+          <li><a href="#garantia">Certificado</a></li>
         </ul>
       </div>
     </div>
@@ -1181,20 +1190,38 @@
 
   <!-- ════════════ JAVASCRIPT ════════════ -->
   <script>
-    /* ── Smooth Scroll ── */
+    /* ── Smooth Scroll (for <button> CTAs) ── */
     function goToSection(id) {
       var el = document.getElementById(id);
-      if (el) {
-        el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        // close mobile menu if open
-        document.getElementById('navLinks').classList.remove('open');
-      }
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
     /* ── Mobile Menu ── */
     function toggleMenu() {
-      document.getElementById('navLinks').classList.toggle('open');
+      var navLinks = document.getElementById('navLinks');
+      var hamburger = document.getElementById('hamburger');
+      var isOpen = navLinks.classList.toggle('open');
+      hamburger.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     }
+
+    /* ── Close mobile menu when any nav/footer anchor is clicked ── */
+    document.addEventListener('click', function(e) {
+      var anchor = e.target.closest('a[href^="#"]');
+      if (anchor) {
+        var hamburger = document.getElementById('hamburger');
+        document.getElementById('navLinks').classList.remove('open');
+        hamburger.setAttribute('aria-expanded', 'false');
+      }
+    });
+
+    /* ── Close mobile menu with Escape ── */
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape' &&
+          document.getElementById('hamburger').getAttribute('aria-expanded') === 'true') {
+        toggleMenu();
+        document.getElementById('hamburger').focus();
+      }
+    });
 
     /* ── Product Filter ── */
     function filterProducts(category, btn) {
@@ -1265,9 +1292,13 @@
           // close all other open overlays first
           document.querySelectorAll('.product-overlay').forEach(function(o) {
             o.style.opacity = '';
+            o.style.visibility = '';
+            o.style.pointerEvents = '';
           });
           if (!isOpen) {
             overlay.style.opacity = '1';
+            overlay.style.visibility = 'visible';
+            overlay.style.pointerEvents = 'auto';
             e.stopPropagation();
           }
         }
@@ -1279,6 +1310,8 @@
       if (!window.matchMedia('(hover: hover)').matches) {
         document.querySelectorAll('.product-overlay').forEach(function(o) {
           o.style.opacity = '';
+          o.style.visibility = '';
+          o.style.pointerEvents = '';
         });
       }
     });
