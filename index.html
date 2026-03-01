@@ -835,14 +835,14 @@
 
   <!-- ════════════ NAVBAR ════════════ -->
   <nav id="navbar">
-    <div class="nav-logo" onclick="scrollTo('hero')" style="cursor:pointer;">
+    <div class="nav-logo" onclick="goToSection('hero')" style="cursor:pointer;">
       Fiorelle <em>d'Aura</em>
     </div>
     <ul class="nav-links" id="navLinks">
-      <li><a onclick="scrollTo('catalogo')">Coleção</a></li>
-      <li><a onclick="scrollTo('sobre')">Sobre</a></li>
-      <li><a onclick="scrollTo('garantia')">Garantia</a></li>
-      <li><a onclick="scrollTo('contato')">Contato</a></li>
+      <li><a onclick="goToSection('catalogo')">Coleção</a></li>
+      <li><a onclick="goToSection('sobre')">Sobre</a></li>
+      <li><a onclick="goToSection('garantia')">Garantia</a></li>
+      <li><a onclick="goToSection('contato')">Contato</a></li>
     </ul>
     <div class="nav-hamburger" id="hamburger" onclick="toggleMenu()" aria-label="Menu">
       <span></span>
@@ -859,8 +859,8 @@
       <h1 class="hero-title">Joias que contam<br>sua história</h1>
       <p class="hero-sub">Peças artesanais em ouro certificado, criadas para mulheres que celebram cada momento da vida com elegância atemporal.</p>
       <div class="hero-buttons">
-        <button class="btn btn-gold" onclick="scrollTo('catalogo')">Ver Coleção</button>
-        <button class="btn btn-outline" onclick="scrollTo('sobre')">Nossa História</button>
+        <button class="btn btn-gold" onclick="goToSection('catalogo')">Ver Coleção</button>
+        <button class="btn btn-outline" onclick="goToSection('sobre')">Nossa História</button>
       </div>
     </div>
   </section>
@@ -1147,19 +1147,19 @@
       <div>
         <p class="footer-col-title">Navegação</p>
         <ul class="footer-links">
-          <li><a onclick="scrollTo('hero')">Início</a></li>
-          <li><a onclick="scrollTo('catalogo')">Coleção</a></li>
-          <li><a onclick="scrollTo('sobre')">Sobre</a></li>
-          <li><a onclick="scrollTo('contato')">Contato</a></li>
+          <li><a onclick="goToSection('hero')">Início</a></li>
+          <li><a onclick="goToSection('catalogo')">Coleção</a></li>
+          <li><a onclick="goToSection('sobre')">Sobre</a></li>
+          <li><a onclick="goToSection('contato')">Contato</a></li>
         </ul>
       </div>
       <div>
         <p class="footer-col-title">Políticas</p>
         <ul class="footer-links">
-          <li><a onclick="scrollTo('garantia')">Garantia</a></li>
-          <li><a onclick="scrollTo('garantia')">Política de Trocas</a></li>
-          <li><a onclick="scrollTo('garantia')">Reembolso</a></li>
-          <li><a onclick="scrollTo('garantia')">Certificado</a></li>
+          <li><a onclick="goToSection('garantia')">Garantia</a></li>
+          <li><a onclick="goToSection('garantia')">Política de Trocas</a></li>
+          <li><a onclick="goToSection('garantia')">Reembolso</a></li>
+          <li><a onclick="goToSection('garantia')">Certificado</a></li>
         </ul>
       </div>
     </div>
@@ -1182,7 +1182,7 @@
   <!-- ════════════ JAVASCRIPT ════════════ -->
   <script>
     /* ── Smooth Scroll ── */
-    function scrollTo(id) {
+    function goToSection(id) {
       var el = document.getElementById(id);
       if (el) {
         el.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1249,6 +1249,37 @@
         navbar.style.boxShadow = '0 2px 20px rgba(0,0,0,0.06)';
       } else {
         navbar.style.boxShadow = 'none';
+      }
+    });
+
+    /* ── Mobile: tap product image to reveal overlay ── */
+    document.querySelectorAll('.product-img-wrap').forEach(function(wrap) {
+      wrap.addEventListener('click', function(e) {
+        // Only activate tap-toggle on touch/pointer devices that lack true hover
+        if (!window.matchMedia('(hover: hover)').matches) {
+          // If the click came from the cart button itself, let it propagate normally
+          if (e.target.classList.contains('add-cart-btn')) return;
+          var overlay = wrap.querySelector('.product-overlay');
+          if (!overlay) return;
+          var isOpen = overlay.style.opacity === '1';
+          // close all other open overlays first
+          document.querySelectorAll('.product-overlay').forEach(function(o) {
+            o.style.opacity = '';
+          });
+          if (!isOpen) {
+            overlay.style.opacity = '1';
+            e.stopPropagation();
+          }
+        }
+      });
+    });
+
+    // close any open overlay when tapping outside a card (touch devices only)
+    document.addEventListener('click', function() {
+      if (!window.matchMedia('(hover: hover)').matches) {
+        document.querySelectorAll('.product-overlay').forEach(function(o) {
+          o.style.opacity = '';
+        });
       }
     });
 
