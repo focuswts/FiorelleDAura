@@ -1,0 +1,83 @@
+.card {
+  background: var(--white);
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(0,0,0,0.08); }
+
+.imgWrap {
+  position: relative;
+  aspect-ratio: 1;
+  background: var(--off-white-2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.imgWrap:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+
+.icon { font-size: clamp(3rem, 8vw, 5rem); pointer-events: none; }
+
+.badge {
+  position: absolute;
+  top: 12px; left: 12px;
+  font-size: 0.62rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: var(--gold);
+  color: var(--white);
+  padding: 0.25rem 0.6rem;
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(44,44,44,0.72);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+.imgWrap:hover .overlay,
+.overlayVisible { opacity: 1 !important; visibility: visible !important; }
+
+.addBtn {
+  padding: 0.75rem 1.4rem;
+  background: var(--gold);
+  color: var(--white);
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  min-height: 44px;
+}
+.addBtn:hover { background: var(--gold-light); }
+
+.info { padding: 1.2rem 1rem; }
+.name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--dark);
+  margin-bottom: 0.25rem;
+}
+.material { font-size: 0.68rem; color: var(--text-light); margin-bottom: 0.5rem; letter-spacing: 0.05em; }
+.price { font-size: 0.82rem; font-weight: 500; color: var(--gold); }
+
+/* Mobile: always show overlay button to make cart accessible without hover */
+@media (hover: none) {
+  .overlay { opacity: 1; visibility: visible; background: rgba(44,44,44,0.0); }
+  .addBtn {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: rgba(201,168,76,0.9);
+    padding: 0.6rem;
+  }
+}

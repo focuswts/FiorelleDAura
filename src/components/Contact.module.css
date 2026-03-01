@@ -1,0 +1,93 @@
+.section {
+  padding: 90px 5%;
+  background: var(--white);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 4rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.intro {
+  font-size: 0.82rem;
+  color: var(--text-light);
+  line-height: 1.9;
+  margin-bottom: 2rem;
+}
+
+.item {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+.itemIcon { font-size: 1.4rem; flex-shrink: 0; }
+.itemLabel { font-size: 0.65rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--gold); margin-bottom: 0.2rem; }
+.itemValue { font-size: 0.82rem; color: var(--text); }
+
+.whatsappLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 1rem;
+  padding: 0.7rem 1.4rem;
+  background: #25D366;
+  color: var(--white);
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  transition: background 0.3s;
+  min-height: 44px;
+}
+.whatsappLink:hover { background: #1ebe5d; }
+
+/* Form */
+.form {
+  background: var(--white);
+  border: 1px solid rgba(201,168,76,0.2);
+  padding: 2.5rem;
+}
+.formGroup { margin-bottom: 1.4rem; }
+.label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+.input, .select, .textarea {
+  width: 100%;
+  padding: 0.8rem 1rem;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 0.78rem;
+  color: var(--text);
+  background: var(--white);
+  border: 1px solid rgba(201,168,76,0.3);
+  border-radius: 0;
+  outline: none;
+  transition: border-color 0.3s;
+  appearance: none;
+  min-height: 44px;
+}
+.input:focus, .select:focus, .textarea:focus { border-color: var(--gold); }
+.textarea { min-height: 120px; resize: vertical; }
+.select {
+  cursor: pointer;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23C9A84C' fill='none' stroke-width='1.5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+@media (max-width: 768px) {
+  .section { padding: 70px 5%; }
+  .grid { grid-template-columns: 1fr; gap: 3rem; }
+  .form { padding: 1.8rem; }
+}
